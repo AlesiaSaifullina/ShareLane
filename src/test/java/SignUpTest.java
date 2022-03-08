@@ -36,7 +36,7 @@ public class SignUpTest {
     }
 
     @Test
-    public void zipCode2() {
+    public void zipCodeShouldNotBeAcceptedWith4Digits() {
         /*
         1: Открыть браузер
         2: Перейти по ссылке https://www.sharelane.com/cgi-bin/register.py
