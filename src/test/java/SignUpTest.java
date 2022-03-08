@@ -4,7 +4,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
+import java.util.concurrent.TimeUnit;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;  //импорт не целого класса,а одного конкретного метода статическ
 
@@ -16,7 +16,8 @@ public class SignUpTest {
     @BeforeMethod     //эта аннотация автоматически запустит наши две строчки кода перед каждым методом(тестом
     public  void setUp(){
         System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
-         driver = new ChromeDriver();
+        driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
     @Test
@@ -118,7 +119,7 @@ public class SignUpTest {
         15. Нажать кнопку Update
         16. Проверить общую сумму (= 960)
          */
-        driver.get("https://www.sharelane.com/cgi-bin/register.py?page=1&zip_code=12325");
+        driver.get("https://www.sharelane.com/cgi-bin/register.py?page=1&zip_code=12345");
         driver.findElement(By.name("first_name")).sendKeys("test");
         driver.findElement(By.name("last_name")).sendKeys("test");
         driver.findElement(By.name("email")).sendKeys("test@test.com");
@@ -127,14 +128,13 @@ public class SignUpTest {
         driver.findElement(By.cssSelector("[value=Register]")).click();
         String login = driver.findElement(By.xpath("//*[contains(text(), 'Email')]/..//b")).getText();
         String password = driver.findElement(By.xpath("//*[contains(text(), 'Password')]/..//td[2]")).getText();
-        driver.get("https://www.sharelane.com/cgi-bin/main.py");
+        driver.get("https://sharelane.com/cgi-bin/show_book.py?book_id=2");
         driver.findElement(By.name("email")).sendKeys(login);
         driver.findElement(By.name("password")).sendKeys(password);
         driver.findElement(By.cssSelector("[value=Login]")).click();
-        driver.get("https://sharelane.com/cgi-bin/show_book.py?book_id=3");
-        driver.findElement(By.cssSelector("[value=Search]")).click();
-        driver.findElement(By.cssSelector("[href='./add_to_cart.py?book_id=3']")).click();
-        driver.findElement(By.cssSelector("[href='./shopping_cart.py']")).click();
+        driver.get("https://sharelane.com/cgi-bin/show_book.py?book_id=2");
+        driver.findElement(By.cssSelector("[href='./add_to_cart.py?book_id=2']")).click();
+        driver.get("https://sharelane.com/cgi-bin/shopping_cart.py");
         driver.findElement(By.name("q")).clear();
         driver.findElement(By.name("q")).sendKeys("100");
         driver.findElement(By.cssSelector("[value=Update]")).click();
